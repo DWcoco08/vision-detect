@@ -125,8 +125,13 @@ def parse_args() -> argparse.Namespace:
         description="Vehicle Damage Detection and Severity Estimation"
     )
 
-    # Required
-    parser.add_argument("--image", required=True, help="Path to input image")
+    # Input (single image or batch)
+    parser.add_argument("--image", help="Path to input image (single mode)")
+    parser.add_argument("--input-dir", help="Directory of images (batch mode)")
+    parser.add_argument("--output-dir", help="Output directory for batch results")
+    parser.add_argument(
+        "--pdf", action="store_true", help="Generate PDF reports (batch mode)"
+    )
 
     # Model paths
     parser.add_argument(
@@ -183,9 +188,40 @@ def parse_args() -> argparse.Namespace:
     return parser.parse_args()
 
 
+def run_batch(args: argparse.Namespace) -> None:
+    """Run batch processing on a directory of images."""
+    from batch.batch_processor import process_batch
+
+    if not args.output_dir:
+        logger.error("--output-dir required for batch mode.")
+        sys.exit(1)
+
+    detector = DamageDetector(args.yolo_weights, confidence=args.confidence)
+    predictor = SeverityPredictor(args.severity_weights, device=args.device)
+
+    df = process_batch(
+        input_dir=args.input_dir,
+        output_dir=args.output_dir,
+        detector=detector,
+        predictor=predictor,
+        generate_pdf=args.pdf,
+    )
+
+    if not df.empty:
+        print(f"\nProcessed {len(df)} images. Summary saved to {args.output_dir}/summary.csv")
+        print(df.to_string(index=False))
+
+
 if __name__ == "__main__":
     try:
-        run_pipeline(parse_args())
+        args = parse_args()
+        if args.input_dir:
+            run_batch(args)
+        elif args.image:
+            run_pipeline(args)
+        else:
+            logger.error("Provide --image (single) or --input-dir (batch).")
+            sys.exit(1)
     except FileNotFoundError as e:
         logger.error(str(e))
         sys.exit(1)
