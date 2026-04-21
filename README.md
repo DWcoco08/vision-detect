@@ -122,6 +122,11 @@ When `--mqtt` enabled, publishes per detection:
 }
 ```
 
+## Documentation
+
+- [Setup & Flow Guide](docs/setup-and-flow-guide.md) — Hướng dẫn cài đặt, flow hoạt động, cách chạy demo
+- [Training Guide](docs/training-guide.md) — Hướng dẫn train YOLO + severity model từ đầu
+
 ## Tech Stack
 
 - **Detection**: YOLOv8 (Ultralytics)
