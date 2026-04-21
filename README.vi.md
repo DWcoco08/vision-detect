@@ -11,6 +11,9 @@ Hệ thống phát hiện hư hại xe (trầy xước, móp, nứt) từ ảnh 
 - **Trực quan hoá** — vẽ khung bao + nhãn + % severity lên ảnh
 - **Gửi MQTT** — tuỳ chọn gửi kết quả JSON qua MQTT broker
 - **Giao diện CLI** — hỗ trợ đầy đủ tham số dòng lệnh
+- **Giao diện Web** — Streamlit, kéo thả ảnh trực tiếp trên trình duyệt
+- **Báo cáo PDF** — xuất báo cáo kiểm tra chuyên nghiệp kèm ước tính chi phí
+- **Xử lý hàng loạt** — xử lý thư mục ảnh, xuất CSV tổng hợp
 
 ## Cấu trúc dự án
 
@@ -26,8 +29,13 @@ Hệ thống phát hiện hư hại xe (trầy xước, móp, nứt) từ ảnh 
 ├── data/severity/             # Thư mục dataset training
 │   ├── images/                # Ảnh crop vùng hư hại
 │   └── labels.csv             # Nhãn: filename, severity
+├── reports/
+│   └── pdf_report.py          # Tạo báo cáo PDF
+├── batch/
+│   └── batch_processor.py     # Xử lý ảnh hàng loạt
 ├── weights/                   # File weights model (best.pt, severity.pth)
-├── main.py                    # Pipeline chính
+├── app.py                     # Giao diện web Streamlit
+├── main.py                    # Pipeline CLI chính
 ├── train_severity.py          # Script train severity model
 └── requirements.txt           # Dependencies
 ```
@@ -76,7 +84,21 @@ python main.py --image xe.jpg --confidence 0.5
 
 # Bật MQTT
 python main.py --image xe.jpg --mqtt --mqtt-broker 192.168.1.100
+
+# Xử lý hàng loạt
+python main.py --input-dir photos/ --output-dir results/
+
+# Hàng loạt + xuất PDF
+python main.py --input-dir photos/ --output-dir results/ --pdf
 ```
+
+### Giao diện Web
+
+```bash
+streamlit run app.py
+```
+
+Mở trình duyệt tại `http://localhost:8501`. Upload ảnh → phát hiện hư hại → tải ảnh annotated + báo cáo PDF.
 
 ### Train severity model
 
@@ -156,3 +178,5 @@ Detections: 3
 - **Ước lượng mức độ**: ResNet18 (PyTorch/torchvision)
 - **Xử lý ảnh**: OpenCV
 - **Giao tiếp IoT**: paho-mqtt
+- **Giao diện web**: Streamlit
+- **Xuất PDF**: fpdf2

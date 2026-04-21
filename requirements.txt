@@ -6,3 +6,5 @@ paho-mqtt>=1.6.0
 numpy>=1.24.0
 pandas>=2.0.0
 Pillow>=10.0.0
+streamlit>=1.30.0
+fpdf2>=2.7.0
