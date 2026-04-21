@@ -27,7 +27,7 @@ st.set_page_config(
     layout="wide",
 )
 
-# --- Theme CSS (clean, modern, neutral) ---
+# --- Theme CSS ---
 st.markdown("""
 <style>
     /* Streamlit overrides */
@@ -35,56 +35,60 @@ st.markdown("""
     footer {visibility: hidden;}
 
     .block-container {
-        padding-top: 1.5rem;
+        padding-top: 0;
         padding-bottom: 2rem;
         max-width: 1100px;
     }
 
-    /* Typography */
-    .app-header {
+    /* ── HEADER BANNER (dark) ── */
+    .banner {
+        background: #0f172a;
+        margin: -1rem -5rem 1.5rem -5rem;
+        padding: 2.5rem 2rem 2rem 2rem;
         text-align: center;
-        padding: 1.5rem 0 0.5rem 0;
     }
-    .app-header h1 {
-        font-size: 2rem;
-        font-weight: 700;
-        color: #111827;
+    .banner h1 {
+        color: #f8fafc;
+        font-size: 2.4rem;
+        font-weight: 800;
         margin: 0;
+        letter-spacing: -0.02em;
     }
-    .app-header p {
-        color: #6b7280;
-        font-size: 0.95rem;
-        margin: 0.3rem 0 0 0;
+    .banner p {
+        color: #94a3b8;
+        font-size: 1rem;
+        margin: 0.4rem 0 0 0;
     }
 
-    /* Cards */
+    /* ── CARDS ── */
     .card {
-        background: #fff;
-        border: 1px solid #e5e7eb;
-        border-radius: 10px;
-        padding: 1rem;
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
+        border-radius: 12px;
+        padding: 1.2rem 1rem;
         text-align: center;
     }
     .card-value {
         font-size: 1.8rem;
-        font-weight: 700;
-        color: #111827;
+        font-weight: 800;
+        color: #0f172a;
         line-height: 1.2;
     }
     .card-label {
         font-size: 0.75rem;
-        color: #6b7280;
+        font-weight: 600;
+        color: #64748b;
         text-transform: uppercase;
-        letter-spacing: 0.04em;
-        margin-top: 0.25rem;
+        letter-spacing: 0.05em;
+        margin-top: 0.3rem;
     }
     .card-sub {
         font-size: 0.8rem;
-        color: #9ca3af;
+        color: #94a3b8;
         margin-top: 0.3rem;
     }
 
-    /* Severity pills */
+    /* ── SEVERITY PILLS ── */
     .pill {
         display: inline-block;
         padding: 3px 10px;
@@ -92,25 +96,26 @@ st.markdown("""
         font-size: 0.8rem;
         font-weight: 600;
     }
-    .pill-low { background: #d1fae5; color: #065f46; }
+    .pill-low { background: #dcfce7; color: #166534; }
     .pill-mod { background: #fef9c3; color: #854d0e; }
-    .pill-high { background: #ffedd5; color: #9a3412; }
-    .pill-crit { background: #fee2e2; color: #991b1b; }
+    .pill-high { background: #fed7aa; color: #9a3412; }
+    .pill-crit { background: #fecaca; color: #991b1b; }
 
-    /* Detection row */
+    /* ── DETECTION ROW ── */
     .det-row {
         display: flex;
         align-items: center;
         gap: 1rem;
-        background: #fff;
-        border: 1px solid #e5e7eb;
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
         border-radius: 10px;
-        padding: 0.75rem 1rem;
+        padding: 0.8rem 1.2rem;
         margin-bottom: 0.5rem;
     }
     .det-num {
-        font-weight: 700;
-        color: #9ca3af;
+        font-weight: 800;
+        color: #94a3b8;
+        font-size: 0.9rem;
         min-width: 28px;
     }
     .det-type {
@@ -120,48 +125,52 @@ st.markdown("""
         min-width: 70px;
     }
     .det-info {
-        color: #374151;
+        color: #334155;
         font-size: 0.85rem;
     }
     .det-bbox {
-        color: #9ca3af;
-        font-size: 0.8rem;
+        color: #94a3b8;
+        font-size: 0.78rem;
         margin-left: auto;
+        font-family: monospace;
     }
 
-    /* Type colors */
-    .t-scratch { color: #b45309; }
+    /* ── TYPE COLORS (high contrast) ── */
+    .t-scratch { color: #a16207; }
     .t-dent { color: #c2410c; }
-    .t-crack { color: #b91c1c; }
+    .t-crack { color: #dc2626; }
 
-    /* Total cost bar */
+    /* ── COST BAR ── */
     .cost-bar {
-        background: #111827;
-        color: #fff;
-        border-radius: 10px;
-        padding: 0.9rem;
+        background: #0f172a;
+        color: #f8fafc;
+        border-radius: 12px;
+        padding: 1rem;
         text-align: center;
-        font-size: 1.2rem;
-        font-weight: 700;
+        font-size: 1.25rem;
+        font-weight: 800;
         margin-top: 0.8rem;
+        letter-spacing: -0.01em;
     }
 
-    /* Section label */
+    /* ── SECTION LABEL ── */
     .sec {
-        font-size: 0.8rem;
-        font-weight: 600;
-        color: #6b7280;
+        font-size: 0.85rem;
+        font-weight: 700;
+        color: #0f172a;
         text-transform: uppercase;
         letter-spacing: 0.06em;
-        margin: 1.5rem 0 0.6rem 0;
+        margin: 2rem 0 0.8rem 0;
+        padding-bottom: 0.4rem;
+        border-bottom: 2px solid #e2e8f0;
     }
 
-    /* Footer */
+    /* ── FOOTER ── */
     .foot {
         text-align: center;
-        color: #9ca3af;
+        color: #94a3b8;
         font-size: 0.75rem;
-        padding: 1.5rem 0 0.5rem 0;
+        padding: 2rem 0 0.5rem 0;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -208,11 +217,11 @@ def type_class(name: str) -> str:
 
 # ========== MAIN ==========
 def main():
-    # --- Header ---
+    # --- Header Banner (dark) ---
     st.markdown(
-        '<div class="app-header">'
+        '<div class="banner">'
         '<h1>🚗 Vehicle Damage Detection</h1>'
-        '<p>Upload a photo — AI detects damage and estimates repair cost</p>'
+        '<p>Upload a photo · AI detects damage · Estimate repair cost</p>'
         '</div>',
         unsafe_allow_html=True,
     )
