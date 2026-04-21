@@ -1,5 +1,7 @@
 # Vehicle Damage Detection & Severity Estimation
 
+[Tiếng Việt](README.vi.md)
+
 Detect vehicle damage (scratch, dent, crack) using YOLOv8 and estimate severity (0–100%) using a ResNet18 CNN.
 
 ## Features
