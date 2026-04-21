@@ -126,6 +126,7 @@ When `--mqtt` enabled, publishes per detection:
 
 - [Setup & Flow Guide](docs/setup-and-flow-guide.md) — Hướng dẫn cài đặt, flow hoạt động, cách chạy demo
 - [Training Guide](docs/training-guide.md) — Hướng dẫn train YOLO + severity model từ đầu
+- [Weights Notice](docs/weights-notice.md) — Lưu ý về model weights, thứ tự train, cách share cho team
 
 ## Tech Stack
 
