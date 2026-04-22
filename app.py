@@ -35,7 +35,7 @@ def inject_css():
     st.markdown("""
     <style>
     /* ── Reset & base ── */
-    #MainMenu, footer, header {visibility: hidden;}
+    #MainMenu, footer {visibility: hidden;}
     .block-container {max-width: 1100px; padding-top: 1.5rem;}
 
     /* ── Sidebar ── */
