@@ -11,6 +11,9 @@ Detect vehicle damage (scratch, dent, crack) using YOLOv8 and estimate severity 
 - **Visualization** — bounding boxes + labels + severity overlay
 - **MQTT Publishing** — optional JSON output to MQTT broker
 - **CLI Interface** — argparse with full configuration
+- **Web UI** — Streamlit interactive interface with drag & drop upload
+- **PDF Reports** — professional inspection reports with cost estimation
+- **Batch Processing** — process image folders with CSV summary export
 
 ## Project Structure
 
@@ -26,8 +29,13 @@ Detect vehicle damage (scratch, dent, crack) using YOLOv8 and estimate severity 
 ├── data/severity/             # Training dataset directory
 │   ├── images/                # Damage crop images
 │   └── labels.csv             # filename,severity pairs
+├── reports/
+│   └── pdf_report.py          # PDF report generator
+├── batch/
+│   └── batch_processor.py     # Batch image processing
 ├── weights/                   # Model weights (best.pt, severity.pth)
-├── main.py                    # Inference pipeline
+├── app.py                     # Streamlit web UI
+├── main.py                    # CLI inference pipeline
 ├── train_severity.py          # Severity model training
 └── requirements.txt
 ```
@@ -64,7 +72,21 @@ python main.py --image car_photo.jpg \
 
 # With MQTT
 python main.py --image car_photo.jpg --mqtt --mqtt-broker 192.168.1.100
+
+# Batch processing
+python main.py --input-dir photos/ --output-dir results/
+
+# Batch with PDF reports
+python main.py --input-dir photos/ --output-dir results/ --pdf
 ```
+
+### Web UI
+
+```bash
+streamlit run app.py
+```
+
+Opens browser at `http://localhost:8501`. Upload image → detect → download annotated image + PDF report.
 
 ### Train Severity Model
 
@@ -136,3 +158,5 @@ When `--mqtt` enabled, publishes per detection:
 - **Severity**: ResNet18 (PyTorch/torchvision)
 - **Image Processing**: OpenCV
 - **MQTT**: paho-mqtt
+- **Web UI**: Streamlit
+- **PDF**: fpdf2
