@@ -592,9 +592,12 @@ with tab_export:
             severities=severities,
         )
         with tempfile.NamedTemporaryFile(suffix=".pdf", delete=False) as tmp:
-            report.generate(tmp.name)
-            pdf_bytes = Path(tmp.name).read_bytes()
-            Path(tmp.name).unlink(missing_ok=True)
+            tmp_path = tmp.name
+        try:
+            report.generate(tmp_path)
+            pdf_bytes = Path(tmp_path).read_bytes()
+        finally:
+            Path(tmp_path).unlink(missing_ok=True)
 
         st.download_button(
             "Download PDF",
